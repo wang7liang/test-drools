@@ -1,0 +1,53 @@
+package drools
+
+import wang7liang.test.Order
+import wang7liang.test.User
+
+rule "zero"
+    no-loop true            //只检查一次
+    lock-on-active true
+    salience 9              //值越大 ，优先级越高
+    when
+        //购物金额100以下不加分
+        o:Order(amout<=100);
+    then
+        o.setScore(0);
+        update(o);
+end
+
+rule "add100"
+    no-loop true            //只检查一次
+    lock-on-active true
+    salience 8              //值越大 ，优先级越高
+    when
+        //购物金额100以上500以下加100积分
+        o:Order(amout>100&&amout<=500);
+    then
+        o.setScore(100);
+        update(o);
+end
+
+rule "add500"
+    no-loop true            //只检查一次
+    lock-on-active true
+    salience 6             //值越大 ，优先级越高
+    when
+        //购物金额500以上1000以下加500积分
+        o:Order(amout>500&&amout<=1000);
+    then
+        o.setScore(500);
+        update(o);
+end
+
+rule "add1000"
+    no-loop true            //只检查一次
+    lock-on-active true
+    salience 5             //值越大 ，优先级越高
+    when
+        //购物金额1000以上加1000积分
+        o:Order(amout>1000);
+    then
+        o.setScore(1000);
+        update(o);
+end
+
